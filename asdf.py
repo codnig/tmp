@@ -26,24 +26,28 @@ while True:
     times += 1
     if h is not None and t is not None :
 
-        if times == 200 and h > 20 :
+        if times == 120 and h < 70 :
             GPIO.output(pumpPin, GPIO.LOW)
             times = 0
             lcd.print("PUMP START")
-            time.sleep(1)
+            time.sleep(2)
+            times += 1
         else : 
             GPIO.output(pumpPin, GPIO.HIGH)
             lcd.print=("PUMP STOP")
-            time.sleep(1)
+            time.sleep(2)
+            times += 1
 
         if t > 29 :
             GPIO.output(fanPin, GPIO.LOW)
             lcd.print("FAN START")
-            time.sleep(1)
+            time.sleep(2)
+            times += 1
         else :
             GPIO.output(fanPin, GPIO.HIGH)
             lcd.print("FAN STOP")
-            time.sleep(1)
+            time.sleep(2)
+            times += 1
 
     else :
         lcd.print("ERROR")
