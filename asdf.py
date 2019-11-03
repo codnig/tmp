@@ -29,7 +29,7 @@ while True:
         if times == 200 and h > 20 :
             GPIO.output(pumpPin, GPIO.LOW)
             times = 0
-            lcd.print=("PUMP START")
+            lcd.print("PUMP START")
             time.sleep(1)
         else : 
             GPIO.output(pumpPin, GPIO.HIGH)
