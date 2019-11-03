@@ -24,13 +24,17 @@ while True:
     h, t = Adafruit_DHT.read_retry(sensor, pin)
     global times
     times += 1
+    msg = "TEMP{}C HUMI{}\%".format(t, h)
+    lcd.print(msg)
+    
     if h is not None and t is not None :
 
-        if times == 120 and h < 70 :
+        if times == 100 and h < 70 :
             GPIO.output(pumpPin, GPIO.LOW)
             times = 0
             lcd.print("PUMP START")
-            time.sleep(2)
+            time.sleep(3)
+            GPIO.output(pumpPin, GPIO.HIGH)
             times += 1
         else : 
             GPIO.output(pumpPin, GPIO.HIGH)
@@ -52,9 +56,7 @@ while True:
     else :
         lcd.print("ERROR")
         time.sleep(1)
-    
-    msg = "TEMP : {}C HUMI : {}\%".format(t, h)
-
+        
     lcd.print(msg)
 
     time.sleep(1) #1초마다 반복
