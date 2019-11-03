@@ -33,30 +33,35 @@ while True:
                 GPIO.output(pumpPin, GPIO.LOW)
                 times = 0
                 lcd.print("PUMP START")
+                print("PUMP START")
                 time.sleep(3)
                 GPIO.output(pumpPin, GPIO.HIGH)
                 times += 1
             else : 
                 GPIO.output(pumpPin, GPIO.HIGH)
                 lcd.print=("PUMP STOP")
+                print("PUMP STOP")
                 time.sleep(2)
                 times += 1
 
         if t > 29 :
             GPIO.output(fanPin, GPIO.LOW)
             lcd.print("FAN START")
+            print("FAN START")
             time.sleep(2)
             times += 1
         else :
             GPIO.output(fanPin, GPIO.HIGH)
             lcd.print("FAN STOP")
+            print("FAN STOP")
             time.sleep(2)
             times += 1
         
     else :
         lcd.print("ERROR")
+        print("ERROR")
         time.sleep(1)
         
     lcd.print(msg)
-
+    print(msg)
     time.sleep(1) #1초마다 반복
