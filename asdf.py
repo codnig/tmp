@@ -4,11 +4,11 @@ import Adafruit_DHT
 import time
 
 GPIO.setmode(GPIO.BCM)
-#핀 선언
-pumpPin = 21
-fanPin = 20
 
-#핀 설정
+pumpPin = 20
+fanPin = 21
+
+
 GPIO.setup(pumpPin, GPIO.OUT)
 GPIO.setup(fanPin, GPIO.OUT)
 
@@ -21,38 +21,52 @@ lcd = RPi_I2C_driver.lcd(0x27)
 
 
 while True:
-    h, t = Adafruit_DHT.read_retry(sensor, pin)
     global times
     times += 1
-    msg = "TEMP{}C HUMI{}\%".format(t, h)
+    h, t = Adafruit_DHT.read_retry(sensor, pin)
+    msg = "TEMP{}C HUMI{}%".format(t, h)
+    lcd.setCursor(0,1)
     lcd.print(msg)
+    print(msg)
     
     if h is not None and t is not None :
         if times == 100 :
             if h < 70 :
                 GPIO.output(pumpPin, GPIO.LOW)
                 times = 0
+                lcd.setCursor(0,0)
                 lcd.print("PUMP START")
+                lcd.setCursor(0,1)
+                lcd.print(msg)
                 print("PUMP START")
                 time.sleep(3)
                 GPIO.output(pumpPin, GPIO.HIGH)
                 times += 1
             else : 
                 GPIO.output(pumpPin, GPIO.HIGH)
-                lcd.print=("PUMP STOP")
+                lcd.setCursor(0,0)
+                lcd.print("PUMP STOP")
+                lcd.setCursor(0,1)
+                lcd.print(msg)
                 print("PUMP STOP")
                 time.sleep(2)
                 times += 1
 
         if t > 29 :
             GPIO.output(fanPin, GPIO.LOW)
+            lcd.setCursor(0,0)
             lcd.print("FAN START")
+            lcd.setCursor(0,1)
+            lcd.print(msg)
             print("FAN START")
             time.sleep(2)
             times += 1
         else :
             GPIO.output(fanPin, GPIO.HIGH)
+            lcd.setCursor(0,0)
             lcd.print("FAN STOP")
+            lcd.setCursor(0,1)
+            lcd.print(msg)
             print("FAN STOP")
             time.sleep(2)
             times += 1
@@ -61,7 +75,5 @@ while True:
         lcd.print("ERROR")
         print("ERROR")
         time.sleep(1)
-        
-    lcd.print(msg)
-    print(msg)
-    time.sleep(1) #1초마다 반복
+
+    time.sleep(1)
